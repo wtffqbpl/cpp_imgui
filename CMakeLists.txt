@@ -14,6 +14,9 @@ set(imgui_srcs
         third_parties/imgui/imgui_widgets.cpp
         third_parties/imgui/backends/imgui_impl_glfw.cpp
         third_parties/imgui/backends/imgui_impl_opengl3.cpp
+
+        third_parties/implot/implot.cpp
+        third_parties/implot/implot_items.cpp
         )
 
 set(project_srcs
@@ -27,6 +30,7 @@ target_include_directories(cxx_imgui PUBLIC
         /usr/local/include
         third_parties/imgui
         third_parties/imgui/backends
+        third_parties/implot
 )
 target_link_libraries(cxx_imgui "-framework Cocoa")
 target_link_libraries(cxx_imgui "-framework OpenGL")
