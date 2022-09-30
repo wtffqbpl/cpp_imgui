@@ -205,13 +205,13 @@ static void HelpMarker(const char* desc)
 typedef void (*ImGuiDemoMarkerCallback)(const char* file, int line, const char* section, void* user_data);
 extern ImGuiDemoMarkerCallback  GImGuiDemoMarkerCallback;
 extern void*                    GImGuiDemoMarkerCallbackUserData;
-ImGuiDemoMarkerCallback         GImGuiDemoMarkerCallback = nullptr;
-void*                           GImGuiDemoMarkerCallbackUserData = nullptr;
-#define IMGUI_DEMO_MARKER(section)  \
-  do { \
-    if (GImGuiDemoMarkerCallback != NULL) \
-      GImGuiDemoMarkerCallback(__FILE__, __LINE__, section, \
-                               GImGuiDemoMarkerCallbackUserData); \
+ImGuiDemoMarkerCallback GImGuiDemoMarkerCallback = nullptr;
+void *GImGuiDemoMarkerCallbackUserData = nullptr;
+#define IMGUI_DEMO_MARKER(section)                                             \
+  do {                                                                         \
+    if (GImGuiDemoMarkerCallback != NULL)                                      \
+      GImGuiDemoMarkerCallback(__FILE__, __LINE__, section,                    \
+                               GImGuiDemoMarkerCallbackUserData);              \
   } while (0)
 
 // Helper to display basic user controls.
