@@ -20,7 +20,7 @@ set(imgui_srcs
         )
 
 set(project_srcs
-        main.cc
+        src/main.cc
         )
 
 set(OPENGL_gl_LIBRARY /usr/local/lib)
