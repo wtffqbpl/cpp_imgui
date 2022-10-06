@@ -21,6 +21,7 @@ set(imgui_srcs
 
 set(project_srcs
         src/main.cc
+        src/opengl_cases/tutorial_01.cc
         )
 
 set(OPENGL_gl_LIBRARY /usr/local/lib)
@@ -31,7 +32,11 @@ target_include_directories(cxx_imgui PUBLIC
         third_parties/imgui
         third_parties/imgui/backends
         third_parties/implot
+
+        src
+        src/opengl_cases
 )
+
 target_link_libraries(cxx_imgui "-framework Cocoa")
 target_link_libraries(cxx_imgui "-framework OpenGL")
 target_link_libraries(cxx_imgui "-framework IOKit")
