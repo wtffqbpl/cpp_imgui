@@ -1,10 +1,19 @@
 cmake_minimum_required(VERSION 3.22)
 project(cxx_imgui)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
 
 find_package(glfw3 3.4 REQUIRED)
+include_directories(${GLFW_INCLUDE_DIRS})
+
 find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS})
+
+find_package(GLEW REQUIRED)
+include_directories(${GLEW_INCLUDE_DIRS})
 
 set(imgui_srcs
         third_parties/imgui/imgui.cpp
@@ -25,9 +34,9 @@ set(project_srcs
         src/opengl_cases/tutorial_01.cc
         )
 
-set(OPENGL_gl_LIBRARY /usr/local/lib)
-set(CMAKE_CXX_FLAGS -std=c++2a)
 add_executable(cxx_imgui ${project_srcs} ${imgui_srcs})
+target_compile_features(cxx_imgui PUBLIC cxx_std_20)
+
 target_include_directories(cxx_imgui PUBLIC
         /usr/local/include
         third_parties/imgui
