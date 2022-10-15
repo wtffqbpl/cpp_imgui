@@ -21,6 +21,7 @@ set(imgui_srcs
 
 set(project_srcs
         src/main.cc
+        src/application.cc
         src/opengl_cases/tutorial_01.cc
         )
 
