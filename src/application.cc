@@ -25,6 +25,9 @@ void Application::setup_imgui() {
 
   ImGui_ImplGlfw_InitForOpenGL(window_, true);
   ImGui_ImplOpenGL3_Init(glsl_version);
+
+  // add each windows.
+  sub_windows_.emplace_back(std::make_shared<PopWindow>(PopWindow{"Test2"}));
 }
 
 void Application::setup_glfw() {
@@ -84,13 +87,33 @@ void Application::run() {
   }
 }
 
-void Application::draw_impl() {
-  static bool test_bool = false;
-  static int int_test = 10;
-  static float float_test = 5.5f;
+void Application::draw() {
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  // render new frame
+  ImGui_ImplOpenGL3_NewFrame();
+  ImGui_ImplGlfw_NewFrame();
+  ImGui::NewFrame();
+
+  // Render each windows.
+  for (auto &sub_window : sub_windows_)
+    sub_window->render();
+
+  ImGui::Render();
+}
+
+Application::~Application() {
+  ImGui_ImplOpenGL3_Shutdown();
+  ImGui_ImplGlfw_Shutdown();
+  ImGui::DestroyContext();
+
+  glfwDestroyWindow(window_);
+  glfwTerminate();
+}
+
+bool PopWindow::render() {
   ImGui::SetNextWindowSize(ImVec2(100, 100));
-  if (ImGui::Begin("Test2", nullptr, ImGuiWindowFlags_NoResize)) {
+  if (ImGui::Begin(name_.data(), nullptr, ImGuiWindowFlags_NoResize)) {
     ImGui::Text("Draw a window.");
   }
   ImGui::End();
@@ -119,24 +142,6 @@ void Application::draw_impl() {
     }
     ImGui::End();
   }
-}
 
-void Application::draw() {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-  // render new frame
-  ImGui_ImplOpenGL3_NewFrame();
-  ImGui_ImplGlfw_NewFrame();
-  ImGui::NewFrame();
-  draw_impl();
-  ImGui::Render();
-}
-
-Application::~Application() {
-  ImGui_ImplOpenGL3_Shutdown();
-  ImGui_ImplGlfw_Shutdown();
-  ImGui::DestroyContext();
-
-  glfwDestroyWindow(window_);
-  glfwTerminate();
+  return true;
 }
