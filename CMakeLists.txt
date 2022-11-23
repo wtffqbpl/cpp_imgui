@@ -2,18 +2,17 @@ cmake_minimum_required(VERSION 3.22)
 project(cxx_imgui)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_INSTALL_BINDIR ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_INSTALL_LIBDIR ${CMAKE_SOURCE_DIR}/lib)
 
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+# find_package(SDL2 REQUIRED)
+# include_directories(${SDL2_INCLUDE_DIRS})
 
 find_package(glfw3 3.4 REQUIRED)
 include_directories(${GLFW_INCLUDE_DIRS})
 
-find_package(OpenGL REQUIRED)
-include_directories(${OPENGL_INCLUDE_DIRS})
-
-find_package(GLEW REQUIRED)
-include_directories(${GLEW_INCLUDE_DIRS})
+# find_package(GLEW REQUIRED)
+# include_directories(${GLEW_INCLUDE_DIRS})
 
 set(imgui_srcs
         third_parties/imgui/imgui.cpp
@@ -26,28 +25,27 @@ set(imgui_srcs
 
         third_parties/implot/implot.cpp
         third_parties/implot/implot_items.cpp
-        )
-
-set(project_srcs
-        src/main.cc
         src/application.cc
-        src/opengl_cases/tutorial_01.cc
+        src/main.cc
+        src/program.cpp
+        src/external/glad/glad.c
         )
 
-add_executable(cxx_imgui ${project_srcs} ${imgui_srcs})
-target_compile_features(cxx_imgui PUBLIC cxx_std_20)
+set(target cpp_imgui)
+add_executable(${target} ${imgui_srcs})
+target_compile_features(${target} PUBLIC cxx_std_20)
+install(TARGETS ${target})
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/imgs
+        DESTINATION ${CMAKE_SOURCE_DIR}/bin/)
 
-target_include_directories(cxx_imgui PUBLIC
+target_include_directories(${target} PUBLIC
         /usr/local/include
         third_parties/imgui
         third_parties/imgui/backends
         third_parties/implot
-
+        third_parties
         src
-        src/opengl_cases
+        src/external
 )
 
-target_link_libraries(cxx_imgui "-framework Cocoa")
-target_link_libraries(cxx_imgui "-framework OpenGL")
-target_link_libraries(cxx_imgui "-framework IOKit")
-target_link_libraries(cxx_imgui glfw)
+target_link_libraries(${target} PRIVATE glfw)

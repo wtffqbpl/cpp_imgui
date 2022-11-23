@@ -31,7 +31,9 @@ private:
   GLFWwindow *window_;
   int base_win_height_;
   int base_win_width_;
+  unsigned int background_texture_id_ = 0;
   std::vector<std::shared_ptr<WindowBase>> sub_windows_;
+
 
 public:
   explicit Application(int height = 720, int width = 1280);
@@ -41,6 +43,9 @@ public:
   void setup_imgui();
   void run();
   void draw();
+
+private:
+  void read_image();
 
 public:
   // User can inherent these functions and change these impl.
